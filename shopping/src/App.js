@@ -5,17 +5,23 @@ import Product from './page/Product';
 import Login from './page/Login';
 import Navbar from './component/Navbar';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import PrivateRoute from './route/PrivateRoute';
 
 function App() {
   const [authenticate, setAuthenticate] = useState(false);
+
+  useEffect(() => {
+    console.log("로그인 상태: ", authenticate);
+  }, [authenticate]);
+  
   return (
     <div>
       <Navbar />
       <Routes>
         <Route path="/" element={<Product />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/detail/:id" element={<Detail />} />
+        <Route path="/login" element={<Login setAuthenticate={setAuthenticate}/>} />
+        <Route path="/product/:id" element={<PrivateRoute authenticate={authenticate}/>} />
       </Routes>
     </div>
   );
