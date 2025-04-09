@@ -7,6 +7,10 @@ import { useNavigate } from "react-router";
 const Navbar = () => {
     const menuList = ['여성', 'Divided', '남성', '아동', '홈', 'Sale', '지속가능성'];
     const navigate = useNavigate();
+
+    const goToHome = () => {
+      navigate('/');
+    }
     
     const goToLink = (link) => {
       // console.log(link);
@@ -23,6 +27,7 @@ const Navbar = () => {
             width={100}
             src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/H%26M-Logo.svg/800px-H%26M-Logo.svg.png"
             alt="로고"
+            onClick={goToHome}
           />
         </div>
         <div className="menu-area">
