@@ -5,14 +5,14 @@ import { Container, Row, Col } from "react-bootstrap";
 const Product = () => {
   const [productList, setProductList] = useState([]);
   const getProducts = async () => {
-    let url = `http://localhost:5000/products`;
+    let url = `http://localhost:4000/products`;
     let response = await fetch(url);
     let data = await response.json();
     setProductList(data);
   };
 
   useEffect(() => {
-    // getProducts();
+    getProducts();
   }, []); // 상품 목록을 가져오는 API 호출
 
   return (

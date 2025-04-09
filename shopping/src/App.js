@@ -5,8 +5,10 @@ import Product from './page/Product';
 import Login from './page/Login';
 import Navbar from './component/Navbar';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useState } from 'react';
 
 function App() {
+  const [authenticate, setAuthenticate] = useState(false);
   return (
     <div>
       <Navbar />

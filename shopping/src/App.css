@@ -4,9 +4,14 @@
     margin: 20px;
 }
 
+.login-button div {
+    cursor: pointer;
+}
+
 .logo-section {
     display: flex;
     justify-content: center;
+    cursor: pointer;
 }
 
 .menu-area{
