@@ -1,0 +1,14 @@
+body {
+    background-color: black !important;
+    height: 100vh !important;
+}
+
+.logo {
+    color: red !important;
+    font-size: 2em !important;
+    font-weight: bold !important;   
+}
+
+.nav-menu {
+    color: white !important;
+}
