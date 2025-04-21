@@ -26,3 +26,18 @@
 .banner-text-area > * {
     z-index: 2;
 }
+
+
+@media (max-width: 768px) {
+    .banner-text-area {
+        width: 90%;
+        /* padding: 16px; */
+    }
+    
+    .banner-text-area p{
+        font-size: 1rem;
+        max-height: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+  }
