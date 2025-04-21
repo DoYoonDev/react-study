@@ -1,25 +1,8 @@
 import React from "react";
 import { useUpcomingMoviesQuery } from "../../../../hooks/usePopularMovies";
 import { Alert } from "bootstrap";
-import Carousel from "react-multi-carousel";
-import "react-multi-carousel/lib/styles.css";
-import "./upcomingMovieSlide.style.css";
-import MovieCard from "../MovieCard/MovieCard";
-
-const responsive = {
-  desktop: {
-    breakpoint: { max: 3000, min: 1024 },
-    items: 6,
-  },
-  tablet: {
-    breakpoint: { max: 1024, min: 464 },
-    items: 2,
-  },
-  mobile: {
-    breakpoint: { max: 464, min: 0 },
-    items: 1,
-  },
-};
+import MovieSlider from "../../../../common/MovieSlider/MovieSlider";
+import { responsive } from "../../../../constants/responsive";
 
 const UpcomingMovieSlide = () => {
     const { data, error, isLoading, isError } = useUpcomingMoviesQuery();
@@ -32,19 +15,12 @@ const UpcomingMovieSlide = () => {
     }
     return (
       <div className="text-white">
-        <h3>Upcoming Movies</h3>
-        <Carousel
-          infinite={true}
-          centerMode={true}
-          itemClass="movie-slider p-1"
-          containerClass="carousel-container"
-          responsive={responsive}
-        >
-          {data?.results.map((movie, index) => (
-            <MovieCard movie={movie} key={index} />
-          ))}
-        </Carousel>
-      </div>
+      <MovieSlider
+        title="Upcoming Movies"
+        movies={data.results}
+        response={responsive}
+      />
+    </div>
     );
 }
 
