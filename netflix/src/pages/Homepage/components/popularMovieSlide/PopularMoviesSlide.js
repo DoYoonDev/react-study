@@ -21,7 +21,7 @@ const responsive = {
   },
 };
 
-const PopularMoviesSlide = ({menu}) => {
+const PopularMoviesSlide = () => {
   const { data, error, isLoading, isError } = usePopularMoviesQuery();
   console.log(data);
   if (isLoading) {
