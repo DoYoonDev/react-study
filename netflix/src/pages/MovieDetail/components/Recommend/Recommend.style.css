@@ -1,0 +1,32 @@
+.recommend-section {
+    margin-bottom: 80px; /* 추천 영화와 하단 사이에 40px 여백 추가 */
+}
+
+.load-more-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px; /* 카드와 버튼 사이에 여백을 더 넓게 주기 */
+    margin-bottom: 40px; /* 버튼 아래 여백 */
+  }
+  
+  /* 더보기 버튼 스타일 */
+  .load-more-btn {
+    padding: 12px 25px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 50px; /* 둥근 버튼 */
+    background-color: #ff6f61; /* 부드러운 오렌지 색상 */
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .load-more-btn:hover {
+    background-color: #e14b3f; /* 호버시 색상 변경 */
+    transform: scale(1.05); /* 버튼이 약간 커지면서 반응 */
+  }
+  
+  .load-more-btn:focus {
+    outline: none;
+  }

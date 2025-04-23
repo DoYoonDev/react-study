@@ -3,6 +3,7 @@ import { useSearchMovieQuery } from "../../hooks/useSearchMovie";
 import { useSearchParams } from "react-router-dom";
 import { Alert, Container, Row, Col, Form } from "react-bootstrap";
 import MovieCard from "../../common/MovieCard/MovieCard";
+import "./MoviePage.style.css";
 import Spinner from "react-bootstrap/Spinner";
 import ReactPaginate from "react-paginate";
 
@@ -111,7 +112,7 @@ const MoviePage = () => {
           </Row>
           <ReactPaginate
             onPageChange={handlePageClick}
-            pageRangeDisplayed={8}
+            pageRangeDisplayed={5}
             marginPagesDisplayed={1}
             pageCount={Math.min(30, Math.ceil((data?.total_results || 0) / 10))}
             previousLabel="< 이전"
