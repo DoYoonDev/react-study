@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSearchMovieQuery } from "../../hooks/useSearchMovie";
 import { useSearchParams } from "react-router-dom";
-import { Alert, Container, Row, Col } from "react-bootstrap";
+import { Alert, Container, Row, Col, Form } from "react-bootstrap";
 import MovieCard from "../../common/MovieCard/MovieCard";
 import Spinner from "react-bootstrap/Spinner";
 import ReactPaginate from "react-paginate";
@@ -9,14 +9,37 @@ import ReactPaginate from "react-paginate";
 const MoviePage = () => {
   const [query, setQuery] = useSearchParams();
   const [page, setPage] = useState(1);
+  const [genre, setGenre] = useState("");
+  const [sortOrder, setSortOrder] = useState("popularity.desc");
   const keyword = query.get("q");
-  const { data, isLoading, isError, error } = useSearchMovieQuery({ keyword, page });
+  const { data, isLoading, isError, error } = useSearchMovieQuery({
+    keyword,
+    page,
+    genre,
+    sortOrder,
+  });
 
-  const handlePageClick = ({selected}) => {
+  const handlePageClick = ({ selected }) => {
     setPage(selected + 1);
     setQuery({ q: keyword, page: selected + 1 });
   };
-  console.log(data);
+
+  const handleGenreChange = (genre) => {
+    setGenre(genre);
+    setQuery({ q: "", page: 1 });
+    setPage(1);
+  };
+  
+  const handleSortChange = (e) => {
+    setSortOrder(e.target.value);
+    setPage(1);
+  };
+
+
+  useEffect(() => {
+    if (keyword) setGenre("");
+  }, [keyword]);
+
   if (isLoading) {
     return (
       <div className="spinner-area">
@@ -41,13 +64,41 @@ const MoviePage = () => {
   return (
     <Container>
       <Row>
-        <Col lg={4} xs={12}>
-          필터
+        <Col lg={4} xs={12} className="mb-3">
+          <Form.Group controlId="genreSelect">
+            <Form.Label>장르 선택</Form.Label>
+            <Form.Select
+              aria-label="장르 선택"
+              onChange={(e) => handleGenreChange(e.target.value)}
+            >
+              <option value="">장르 선택</option>
+              <option value="28">액션</option>
+              <option value="35">코미디</option>
+              <option value="18">드라마</option>
+            </Form.Select>
+          </Form.Group>
+          <Form.Group controlId="sortOrderSelect">
+            <Form.Label>정렬 기준</Form.Label>
+            <Form.Select
+              aria-label="정렬 기준"
+              onChange={handleSortChange}
+            >
+              <option value="popularity.desc">인기순</option>
+              <option value="release_date.desc">최신순</option>
+              <option value="vote_average.desc">평점순</option>
+            </Form.Select>
+          </Form.Group>
         </Col>
         <Col lg={8} xs={12}>
           <Row>
             {data?.results.map((movie, index) => (
-              <Col key={index} lg={4} xs={12}>
+              <Col
+                key={index}
+                lg={4}
+                sm={6}
+                xs={12}
+                className="d-flex justify-content-center"
+              >
                 <MovieCard movie={movie} />
               </Col>
             ))}
