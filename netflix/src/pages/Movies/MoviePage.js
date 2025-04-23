@@ -8,10 +8,12 @@ import ReactPaginate from "react-paginate";
 
 const MoviePage = () => {
   const [query, setQuery] = useSearchParams();
-  const [page, setPage] = useState(1);
+  const pageParam = parseInt(query.get("page")) || 1;
+  const [page, setPage] = useState(pageParam);
   const [genre, setGenre] = useState("");
   const [sortOrder, setSortOrder] = useState("popularity.desc");
   const keyword = query.get("q");
+  const MAX_PAGE = 500;
   const { data, isLoading, isError, error } = useSearchMovieQuery({
     keyword,
     page,
@@ -20,8 +22,14 @@ const MoviePage = () => {
   });
 
   const handlePageClick = ({ selected }) => {
+    const newPage = selected + 1;
     setPage(selected + 1);
-    setQuery({ q: keyword, page: selected + 1 });
+    setQuery({ 
+      q: keyword ?? "", 
+      page: newPage.toString(), 
+      genre: genre ?? "", 
+      sortOrder: sortOrder ?? "popularity.desc"
+    });
   };
 
   const handleGenreChange = (genre) => {
@@ -29,16 +37,17 @@ const MoviePage = () => {
     setQuery({ q: "", page: 1 });
     setPage(1);
   };
-  
+
   const handleSortChange = (e) => {
     setSortOrder(e.target.value);
     setPage(1);
   };
 
-
   useEffect(() => {
     if (keyword) setGenre("");
   }, [keyword]);
+
+  console.log(data);
 
   if (isLoading) {
     return (
@@ -79,10 +88,7 @@ const MoviePage = () => {
           </Form.Group>
           <Form.Group controlId="sortOrderSelect">
             <Form.Label>정렬 기준</Form.Label>
-            <Form.Select
-              aria-label="정렬 기준"
-              onChange={handleSortChange}
-            >
+            <Form.Select aria-label="정렬 기준" onChange={handleSortChange}>
               <option value="popularity.desc">인기순</option>
               <option value="release_date.desc">최신순</option>
               <option value="vote_average.desc">평점순</option>
@@ -106,9 +112,9 @@ const MoviePage = () => {
           <ReactPaginate
             nextLabel="next >"
             onPageChange={handlePageClick}
-            pageRangeDisplayed={3}
-            marginPagesDisplayed={2}
-            pageCount={data?.total_pages} //전체페이지가 총 몇개인지?
+            pageRangeDisplayed={10}
+            marginPagesDisplayed={1}
+            pageCount={Math.ceil((data?.total_results || 0) / 10)} //전체페이지가 총 몇개인지?
             previousLabel="< previous"
             pageClassName="page-item"
             pageLinkClassName="page-link"
