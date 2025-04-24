@@ -113,11 +113,12 @@ const MoviePage = () => {
               </Col>
             ))}
           </Row>
+          
           <ReactPaginate
             onPageChange={handlePageClick}
             pageRangeDisplayed={5}
             marginPagesDisplayed={1}
-            pageCount={Math.min(MAX_PAGE, Math.ceil((data?.total_results || 0) / 10))}
+            pageCount={data?.total_pages > MAX_PAGE ? MAX_PAGE : data?.total_pages}
             previousLabel="< 이전"
             nextLabel="다음 >"
             pageClassName="page-item"
