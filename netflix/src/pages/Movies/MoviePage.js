@@ -71,6 +71,9 @@ const MoviePage = () => {
   if (isError) {
     return <Alert variant="danger">Error: {error.message}</Alert>;
   }
+  if (!data || data.results.length === 0) {
+    return <Alert variant="warning">검색 결과가 없습니다.</Alert>;
+  }
   return (
     <Container>
       <Row>
@@ -114,7 +117,7 @@ const MoviePage = () => {
             onPageChange={handlePageClick}
             pageRangeDisplayed={5}
             marginPagesDisplayed={1}
-            pageCount={Math.min(30, Math.ceil((data?.total_results || 0) / 10))}
+            pageCount={Math.min(MAX_PAGE, Math.ceil((data?.total_results || 0) / 10))}
             previousLabel="< 이전"
             nextLabel="다음 >"
             pageClassName="page-item"
