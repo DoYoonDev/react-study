@@ -21,7 +21,7 @@ const Recommend = ({ recommendations }) => {
       <h3>추천 영화</h3>
       <Row>
         {visibleRecommendations.map((movie) => (
-          <Col key={movie.id} xs={12} sm={6} md={4} lg={3}>
+          <Col key={movie.id} xs={12} sm={6} md={4} lg={3} className="movie-card-col">
             <MovieCard movie={movie} />
           </Col>
         ))}

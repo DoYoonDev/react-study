@@ -23,11 +23,14 @@ const MovieDetailPage = () => {
   const handleShow = () => {
     // 예고편만 필터링
     const trailers = videos?.filter(
-      (video) => (video.type === "Trailer" || video.type === "Clip") && video.site === "YouTube"
+      (video) =>
+        (video.type === "Trailer" || video.type === "Clip") &&
+        video.site === "YouTube"
     );
 
     if (trailers && trailers.length > 0) {
-      const randomTrailer = trailers[Math.floor(Math.random() * trailers.length)];
+      const randomTrailer =
+        trailers[Math.floor(Math.random() * trailers.length)];
       setTrailerKey(randomTrailer.key);
       setShow(true);
     } else {
@@ -45,72 +48,71 @@ const MovieDetailPage = () => {
 
   return (
     <Container>
-      <Row>
-        <Col className="center-col">
+      <Row className="movie-detail-container">
+        <Col xs={12} md={4} className="center-col">
           <div
-            style={{
-              backgroundImage:
-                "url(" +
-                `https://image.tmdb.org/t/p/w300_and_h450_bestv2${movieData?.poster_path}` +
-                ")",
-            }}
             className="detail-img"
+            style={{
+              backgroundImage: `url(https://image.tmdb.org/t/p/w300_and_h450_bestv2${movieData?.poster_path})`,
+            }}
           ></div>
         </Col>
-        <Col>
-          <div>
-            {movieData?.genres.map((id, name) => (
-              <Badge bg="danger" key={id.id} style={{ margin: "5px" }}>
-                {id.name}
-              </Badge>
-            ))}
-            <h1 style={{ color: "white" }}>{movieData?.title}</h1>
-            <div className="overview-box">
-              <h4 style={{ color: "white" }}>줄거리</h4>
-              <p style={{ color: "white" }}>{movieData?.overview}</p>
+
+        <Col xs={12} md={7} className="detail-info-col">
+          <div className="detail-content">
+            <div className="genre-badges">
+              {movieData?.genres.map((genre) => (
+                <Badge bg="danger" key={genre.id}>
+                  {genre.name}
+                </Badge>
+              ))}
             </div>
-            <Row>
-              <Col className="left-col">개봉일</Col>
-              <Col className="right-col">{movieData?.release_date}</Col>
-            </Row>
-            <Row>
-              <Col className="left-col">상영시간</Col>
-              <Col className="right-col">{movieData?.runtime}분</Col>
-            </Row>
-            <Row>
-              <Col className="left-col">평점</Col>
-              <Col className="right-col">{movieData?.vote_average}</Col>
-            </Row>
-            <Row>
-              <Col className="left-col">인기</Col>
-              <Col className="right-col">{movieData?.popularity}</Col>
-            </Row>
-            <Row>
-              <Col className="left-col">상영연령</Col>
-              <Col className="right-col">
-                {movieData?.adult ? "over18" : "under18"}
-              </Col>
-            </Row>
-            <Row>
-              <Col className="left-col">예산</Col>
-              <Col className="right-col">
-                {movieData?.budget.toLocaleString("en-US", {
-                  style: "currency",
-                  currency: "USD",
-                })}
-              </Col>
-            </Row>
+
+            <h1 className="movie-title">{movieData?.title}</h1>
+
+            <div className="overview-box">
+              <h4>줄거리</h4>
+              <p>{movieData?.overview}</p>
+            </div>
+
+            <div className="info-grid">
+              <div className="info-row">
+                <span className="info-label">개봉일</span>
+                <span>{movieData?.release_date}</span>
+              </div>
+              <div className="info-row">
+                <span className="info-label">상영시간</span>
+                <span>{movieData?.runtime}분</span>
+              </div>
+              <div className="info-row">
+                <span className="info-label">평점</span>
+                <span>{movieData?.vote_average}</span>
+              </div>
+              <div className="info-row">
+                <span className="info-label">인기</span>
+                <span>{movieData?.popularity}</span>
+              </div>
+              <div className="info-row">
+                <span className="info-label">상영연령</span>
+                <span>{movieData?.adult ? "over18" : "under18"}</span>
+              </div>
+              <div className="info-row">
+                <span className="info-label">예산</span>
+                <span>
+                  {movieData?.budget.toLocaleString("en-US", {
+                    style: "currency",
+                    currency: "USD",
+                  })}
+                </span>
+              </div>
+            </div>
           </div>
         </Col>
       </Row>
       <Row className="row-center">
         <Col>
           <div className="button-wrapper">
-            <Button
-              variant="primary"
-              onClick={handleShow}
-              className="mb-3"
-            >
+            <Button variant="primary" onClick={handleShow} className="mb-3">
               예고편 보기
             </Button>
           </div>

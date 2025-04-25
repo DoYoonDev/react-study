@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSearchMovieQuery } from "../../hooks/useSearchMovie";
+import { useMovieGenreQuery } from "../../hooks/useMovieGenre";
 import { useSearchParams } from "react-router-dom";
 import { Alert, Container, Row, Col, Form } from "react-bootstrap";
 import MovieCard from "../../common/MovieCard/MovieCard";
@@ -15,6 +16,7 @@ const MoviePage = () => {
   const [sortOrder, setSortOrder] = useState("popularity.desc");
   const keyword = query.get("q");
   const MAX_PAGE = 500;
+  const { data: genreData } = useMovieGenreQuery();
   const { data, isLoading, isError, error } = useSearchMovieQuery({
     keyword,
     page,
@@ -25,11 +27,11 @@ const MoviePage = () => {
   const handlePageClick = ({ selected }) => {
     const newPage = selected + 1;
     setPage(selected + 1);
-    setQuery({ 
-      q: keyword ?? "", 
-      page: newPage.toString(), 
-      genre: genre ?? "", 
-      sortOrder: sortOrder ?? "popularity.desc"
+    setQuery({
+      q: keyword ?? "",
+      page: newPage.toString(),
+      genre: genre ?? "",
+      sortOrder: sortOrder ?? "popularity.desc",
     });
   };
 
@@ -48,7 +50,7 @@ const MoviePage = () => {
     if (keyword) setGenre("");
   }, [keyword]);
 
-  console.log(data);
+  console.log(genreData);
 
   if (isLoading) {
     return (
@@ -85,9 +87,9 @@ const MoviePage = () => {
               onChange={(e) => handleGenreChange(e.target.value)}
             >
               <option value="">장르 선택</option>
-              <option value="28">액션</option>
-              <option value="35">코미디</option>
-              <option value="18">드라마</option>
+              {genreData?.map((genre, index) => (
+                <option value={genre.id} key={index}>{genre.name}</option>
+              ))}
             </Form.Select>
           </Form.Group>
           <Form.Group controlId="sortOrderSelect">
@@ -113,12 +115,14 @@ const MoviePage = () => {
               </Col>
             ))}
           </Row>
-          
+
           <ReactPaginate
             onPageChange={handlePageClick}
             pageRangeDisplayed={5}
             marginPagesDisplayed={1}
-            pageCount={data?.total_pages > MAX_PAGE ? MAX_PAGE : data?.total_pages}
+            pageCount={
+              data?.total_pages > MAX_PAGE ? MAX_PAGE : data?.total_pages
+            }
             previousLabel="< 이전"
             nextLabel="다음 >"
             pageClassName="page-item"

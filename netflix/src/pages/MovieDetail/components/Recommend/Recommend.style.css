@@ -30,3 +30,11 @@
   .load-more-btn:focus {
     outline: none;
   }
+
+  @media (max-width: 768px) {
+    .movie-card-col {
+        display: flex;
+        justify-content: center;
+    }
+    
+  }
