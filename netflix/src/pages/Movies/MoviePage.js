@@ -24,6 +24,13 @@ const MoviePage = () => {
     sortOrder,
   });
 
+  useEffect(() => {
+    if (pageParam !== page) {
+      setPage(pageParam);
+    }
+  }, [pageParam]);
+
+
   const handlePageClick = ({ selected }) => {
     const newPage = selected + 1;
     setPage(selected + 1);
@@ -37,18 +44,25 @@ const MoviePage = () => {
 
   const handleGenreChange = (genre) => {
     setGenre(genre);
-    setQuery({ q: "", page: 1 });
     setPage(1);
+    setQuery({
+      q: keyword ?? "",
+      page: "1",
+      genre: genre ?? "",
+      sortOrder: sortOrder ?? "popularity.desc",
+    });
   };
 
   const handleSortChange = (e) => {
     setSortOrder(e.target.value);
     setPage(1);
+    setQuery({
+      q: keyword ?? "",
+      page: "1", 
+      genre: genre ?? "",
+      sortOrder: e.target.value ?? "popularity.desc",
+    });
   };
-
-  useEffect(() => {
-    if (keyword) setGenre("");
-  }, [keyword]);
 
   console.log(genreData);
 
@@ -88,7 +102,9 @@ const MoviePage = () => {
             >
               <option value="">장르 선택</option>
               {genreData?.map((genre, index) => (
-                <option value={genre.id} key={index}>{genre.name}</option>
+                <option value={genre.id} key={index}>
+                  {genre.name}
+                </option>
               ))}
             </Form.Select>
           </Form.Group>

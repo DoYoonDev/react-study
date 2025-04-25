@@ -13,7 +13,7 @@ const Applayout = () => {
   const navigate = useNavigate();
   const searchByKeyword = (event) => {
     event.preventDefault();
-    navigate(`/movies?q=${keyword}`);
+    navigate(`/movies?q=${keyword}&page=1`);
     setKeyword('');
   }
   return (
